@@ -39,6 +39,7 @@ tripleFactory(2, 4, 6);
 const gameboard = [];
 
 const boardModule = (() => {
+
     for (let i = 0; i < 9; i++) {
         // Object
         const box = {fill: "empty"};
@@ -59,16 +60,16 @@ const boardModule = (() => {
         // Place marker
         this.innerText = `${active.marker}`;
         gameboard.at(this.getAttribute("data-index")).fill = active.marker; //div innerText STILL matches box.fill
-        console.table(gameboard);
-        // Check for win condition
+        // Check for win
         triples.forEach(triple => {
             if (gameboard.at(triple.first).fill === gameboard.at(triple.second).fill
             && gameboard.at(triple.second).fill === gameboard.at(triple.third).fill
             && gameboard.at(triple.first). fill != "empty") {
-                console.log("win!");
+                active.score = active.score + 1;
+                console.log(`${active.name} win. ${active.score}`);
             };
         });
-        console.log(active);
+        // Switch turns
         if (active === human) {
             active = computer;
         } else {
@@ -77,5 +78,3 @@ const boardModule = (() => {
     }
 
 })();
-
-//console.table(gameboard);
