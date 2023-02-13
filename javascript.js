@@ -51,26 +51,19 @@ const boardModule = (() => {
         div.innerText = `${box.fill}`; //div innerText matches box.fill
         document.querySelector("main").appendChild(div);
         // Div event listeners
-        div.addEventListener("click", addMark);
+        div.addEventListener("click", handleTurn);
     }
 
-    function addMark() {
+    function handleTurn() {
         this.innerText = `${human.marker}`;
         gameboard.at(this.getAttribute("data-index")).fill = human.marker; //div innerText STILL matches box.fill
         console.table(gameboard);
-        checkBoard();
-    }
-
-    function checkBoard() {
+        
         triples.forEach(triple => {
-            //console.log(gameboard.at(triple.first).fill);
             if (gameboard.at(triple.first).fill === gameboard.at(triple.second).fill
-             && gameboard.at(triple.second).fill === gameboard.at(triple.third).fill
-             && gameboard.at(triple.first). fill != "empty"
-             ) {
+            && gameboard.at(triple.second).fill === gameboard.at(triple.third).fill
+            && gameboard.at(triple.first). fill != "empty") {
                 console.log("win!");
-            } else {
-                console.log("no win yet")
             };
         });
     }
