@@ -55,26 +55,42 @@ const boardModule = (() => {
     }
 
     let active = human;
+    let gameOver = false;
 
     function handleTurn() {
         // Place marker
         this.innerText = `${active.marker}`;
         gameboard.at(this.getAttribute("data-index")).fill = active.marker; //div innerText STILL matches box.fill
+    
         // Check for win
+        checkForWin();
+        if (gameOver === true) {
+            return;
+        };
+
+        // Easy AI: Computer turn
+        let availableMoves = gameboard.filter(box => box.fill === "empty");
+        let computerMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+        document.querySelector(`[data-index="${gameboard.indexOf(computerMove)}"]`).innerText = `${computer.marker}`;
+        gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
+
+        // Check for win
+        checkForWin();
+        if (gameOver === true) {
+            return;
+        };
+    }
+    
+    function checkForWin() {
         triples.forEach(triple => {
             if (gameboard.at(triple.first).fill === gameboard.at(triple.second).fill
             && gameboard.at(triple.second).fill === gameboard.at(triple.third).fill
-            && gameboard.at(triple.first). fill != "empty") {
+            && gameboard.at(triple.first).fill != "empty") {
                 active.score = active.score + 1;
                 console.log(`${active.name} win. ${active.score}`);
+                gameOver = true;
             };
         });
-        // Switch turns
-        if (active === human) {
-            active = computer;
-        } else {
-            active = human;
-        }
     }
 
 })();
