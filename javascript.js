@@ -54,11 +54,12 @@ const boardModule = (() => {
         div.addEventListener("click", handleTurn);
     }
 
-    let active = human;
+    let active;
     let gameOver = false;
 
     function handleTurn() {
         // Place marker
+        active = human;
         this.innerText = `${active.marker}`;
         gameboard.at(this.getAttribute("data-index")).fill = active.marker; //div innerText STILL matches box.fill
         // Check for win
@@ -67,6 +68,7 @@ const boardModule = (() => {
             return;
         };
         //Computer turn: hard
+        active = computer;
         hardAI();
         // Check for win
         checkForWin();
@@ -97,41 +99,47 @@ const boardModule = (() => {
 
     function hardAI() {
         let goodMoves = [];
-        let availableMoves = gameboard.filter(box => box.fill === "empty");
+        let availableMoves = [];
+
+        gameboard.forEach(box => {
+            if (box.fill === "empty") {
+                availableMoves.push(gameboard.indexOf(box));
+            }});
+
         triples.forEach(triple => {
             if (
-            gameboard.at(triple.first).fill !== "empty" &&
+            gameboard.at(triple.first).fill === human.marker &&
             gameboard.at(triple.first).fill === gameboard.at(triple.second).fill &&
             gameboard.at(triple.third).fill === "empty" &&
-            availableMoves.includes(triple.third) === true &&
-            goodMoves.includes(triple.third) === false ) {
+            availableMoves.includes(triple.third) === true) {
                 goodMoves.push(triple.third);
             } else if (
-            gameboard.at(triple.first).fill !== "empty" &&
+            gameboard.at(triple.first).fill === human.marker &&
             gameboard.at(triple.first).fill === gameboard.at(triple.third).fill &&
             gameboard.at(triple.second).fill === "empty" &&
-            availableMoves.includes(triple.second) === true &&
-            goodMoves.includes(triple.second) === false ) {
+            availableMoves.includes(triple.second) === true) {
                 goodMoves.push(triple.second);
             } else if (
-            gameboard.at(triple.second).fill !== "empty" &&
+            gameboard.at(triple.second).fill === human.marker &&
             gameboard.at(triple.second).fill === gameboard.at(triple.third).fill &&
             gameboard.at(triple.first).fill === "empty" &&
-            availableMoves.includes(triple.first) === true &&
-            goodMoves.includes(triple.first) === false ) {
+            availableMoves.includes(triple.first) === true) {
                 goodMoves.push(triple.first);
             }
-        });     
+        });
+
         if (goodMoves.at(0) === undefined) {
             easyAI();
+            console.log("using easy AI");
         } else {
-            console.log(goodMoves);
             let computerMove = goodMoves.pop();
-            console.log(computerMove);
+
             document.querySelector(`[data-index="${computerMove}"]`).innerText = `${computer.marker}`;
             gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
+            
             goodMoves = [];
+            availableMoves = [];
         };
     }
-
+    
 })();
