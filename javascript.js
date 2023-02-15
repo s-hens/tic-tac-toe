@@ -69,11 +69,29 @@ const boardModule = (() => {
         };
 
         // Easy AI: Computer turn
-        let availableMoves = gameboard.filter(box => box.fill === "empty");
-        let computerMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-        document.querySelector(`[data-index="${gameboard.indexOf(computerMove)}"]`).innerText = `${computer.marker}`;
-        gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
+        //let availableMoves = gameboard.filter(box => box.fill === "empty");
+        //let computerMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+        //document.querySelector(`[data-index="${gameboard.indexOf(computerMove)}"]`).innerText = `${computer.marker}`;
+        //gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
 
+        //Hard AI: Computer turn
+        triples.forEach(triple => {
+            let fills = Array.of(gameboard.at(triple.first).fill, gameboard.at(triple.second).fill, gameboard.at(triple.third).fill);
+            console.log(fills);
+            let goodMoves = fills.reduce(function(obj, item) {
+                if (!obj[item]) {
+                    obj[item] = 0;
+                }
+                obj[item]++;
+                return obj;
+            }, {});
+            console.log(goodMoves);
+            if (goodMoves.x === 2 || goodMoves.o === 2) {
+                console.log("I should play in this triple");
+            }
+        });
+
+        
         // Check for win
         checkForWin();
         if (gameOver === true) {
@@ -94,3 +112,18 @@ const boardModule = (() => {
     }
 
 })();
+
+
+//const data = [
+//    'car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogo stick', 'horse'
+//];
+
+//const transport = data.reduce(function(obj, item) {
+//    if (!obj[item]) {
+//        obj[item] = 0;
+//    }
+//    obj[item]++;
+//    return obj;
+//}, {});
+
+//console.table(transport);
