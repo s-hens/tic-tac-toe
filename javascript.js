@@ -70,6 +70,7 @@ const boardModule = (() => {
         //Computer turn: hard
         active = computer;
         hardAI();
+        console.table(gameboard);
         // Check for win
         checkForWin();
         if (gameOver === true) {
@@ -106,8 +107,6 @@ const boardModule = (() => {
                 availableMoves.push(gameboard.indexOf(box));
             }});
 
-        console.log(availableMoves);
-
         triples.forEach(triple => {
             if (
             gameboard.at(triple.first).fill === human.marker &&
@@ -125,7 +124,7 @@ const boardModule = (() => {
                 goodMoves.push(triple.second);
             } else if (
             gameboard.at(triple.second).fill === human.marker &&
-           gameboard.at(triple.third).fill === human.marker &&
+            gameboard.at(triple.third).fill === human.marker &&
             gameboard.at(triple.first).fill === "empty" &&
             availableMoves.includes(triple.first) &&
             !goodMoves.includes(triple.first)) {
@@ -133,31 +132,18 @@ const boardModule = (() => {
             }
         });
 
-        console.log(goodMoves);
-
         if (availableMoves.includes(4)) {
             document.querySelector(`[data-index="4"]`).innerText = `${computer.marker}`;
             gameboard.at(4).fill = computer.marker;
             console.log("Breaking the fork strat");
-            
-            goodMoves = [];
-            availableMoves = [];
-
         } else if (goodMoves.at(0) === undefined) {
             easyAI();
             console.log("using easy AI");
-
-            goodMoves = [];
-            availableMoves = [];
-
         } else {
             let computerMove = goodMoves.pop();
             document.querySelector(`[data-index="${computerMove}"]`).innerText = `${computer.marker}`;
             gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
             console.log("using smart move choice");
-            
-            goodMoves = [];
-            availableMoves = [];
         };
     }
     
