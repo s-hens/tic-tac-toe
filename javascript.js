@@ -106,36 +106,55 @@ const boardModule = (() => {
                 availableMoves.push(gameboard.indexOf(box));
             }});
 
+        console.log(availableMoves);
+
         triples.forEach(triple => {
             if (
             gameboard.at(triple.first).fill === human.marker &&
-            gameboard.at(triple.first).fill === gameboard.at(triple.second).fill &&
+            gameboard.at(triple.second).fill === human.marker &&
             gameboard.at(triple.third).fill === "empty" &&
-            availableMoves.includes(triple.third) === true) {
+            availableMoves.includes(triple.third) &&
+            !goodMoves.includes(triple.third)) {
                 goodMoves.push(triple.third);
             } else if (
             gameboard.at(triple.first).fill === human.marker &&
-            gameboard.at(triple.first).fill === gameboard.at(triple.third).fill &&
+            gameboard.at(triple.third).fill === human.marker &&
             gameboard.at(triple.second).fill === "empty" &&
-            availableMoves.includes(triple.second) === true) {
+            availableMoves.includes(triple.second) &&
+            !goodMoves.includes(triple.second)) {
                 goodMoves.push(triple.second);
             } else if (
             gameboard.at(triple.second).fill === human.marker &&
-            gameboard.at(triple.second).fill === gameboard.at(triple.third).fill &&
+           gameboard.at(triple.third).fill === human.marker &&
             gameboard.at(triple.first).fill === "empty" &&
-            availableMoves.includes(triple.first) === true) {
+            availableMoves.includes(triple.first) &&
+            !goodMoves.includes(triple.first)) {
                 goodMoves.push(triple.first);
             }
         });
 
-        if (goodMoves.at(0) === undefined) {
+        console.log(goodMoves);
+
+        if (availableMoves.includes(4)) {
+            document.querySelector(`[data-index="4"]`).innerText = `${computer.marker}`;
+            gameboard.at(4).fill = computer.marker;
+            console.log("Breaking the fork strat");
+            
+            goodMoves = [];
+            availableMoves = [];
+
+        } else if (goodMoves.at(0) === undefined) {
             easyAI();
             console.log("using easy AI");
+
+            goodMoves = [];
+            availableMoves = [];
+
         } else {
             let computerMove = goodMoves.pop();
-
             document.querySelector(`[data-index="${computerMove}"]`).innerText = `${computer.marker}`;
             gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
+            console.log("using smart move choice");
             
             goodMoves = [];
             availableMoves = [];
