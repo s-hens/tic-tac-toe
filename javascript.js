@@ -68,32 +68,8 @@ const boardModule = (() => {
             return;
         };
 
-        // Easy AI: Computer turn
-        //let availableMoves = gameboard.filter(box => box.fill === "empty");
-        //let computerMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-        //document.querySelector(`[data-index="${gameboard.indexOf(computerMove)}"]`).innerText = `${computer.marker}`;
-        //gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
-
-        //Hard AI: Computer turn
-        let goodMoves = [];
-        triples.forEach(triple => {
-            if (gameboard.at(triple.first).fill != "empty" && (gameboard.at(triple.first).fill === gameboard.at(triple.second).fill)) {
-                goodMoves.push(triple.third);
-            } else if (gameboard.at(triple.first).fill != "empty" && (gameboard.at(triple.first).fill === gameboard.at(triple.third).fill)) {
-                goodMoves.push(triple.second);
-            } else if (gameboard.at(triple.second).fill != "empty" && (gameboard.at(triple.second).fill === gameboard.at(triple.third).fill)) {
-                goodMoves.push(triple.first);
-            }
-        });     
-        if (goodMoves.at(0) === undefined) {
-            console.log("Random");
-        } else {
-            let computerMove = goodMoves.at(0);
-            console.log(computerMove);
-            document.querySelector(`[data-index="${computerMove}"]`).innerText = `${computer.marker}`;
-            gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
-        };
-
+        //Computer turn: hard
+        hardAI();
         
         // Check for win
         checkForWin();
@@ -112,6 +88,49 @@ const boardModule = (() => {
                 gameOver = true;
             };
         });
+    }
+
+    function easyAI() {
+        let availableMoves = gameboard.filter(box => box.fill === "empty");
+        let computerMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+        document.querySelector(`[data-index="${gameboard.indexOf(computerMove)}"]`).innerText = `${computer.marker}`;
+        gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
+    }
+
+    function hardAI() {
+        //Hard AI: Computer turn
+        let goodMoves = [];
+        triples.forEach(triple => {
+            if (
+                gameboard.at(triple.first).fill !== "empty" &&
+                gameboard.at(triple.first).fill === gameboard.at(triple.second).fill &&
+                gameboard.at(triple.third).fill === "empty" &&
+                goodMoves.includes(triple.third) === false ) {
+                    goodMoves.push(triple.third);
+            } else if (
+                gameboard.at(triple.first).fill !== "empty" &&
+                gameboard.at(triple.first).fill === gameboard.at(triple.third).fill &&
+                gameboard.at(triple.second).fill === "empty" &&
+                goodMoves.includes(triple.second) === false ) {
+                    goodMoves.push(triple.second);
+            } else if (
+                gameboard.at(triple.second).fill !== "empty" &&
+                gameboard.at(triple.second).fill === gameboard.at(triple.third).fill &&
+                gameboard.at(triple.first).fill === "empty" &&
+                goodMoves.includes(triple.first) === false ) {
+                    goodMoves.push(triple.first);
+            }
+        });     
+        if (goodMoves.at(0) === undefined) {
+            easyAI();
+        } else {
+            console.log(goodMoves);
+            let computerMove = goodMoves.pop();
+            console.log(computerMove);
+            document.querySelector(`[data-index="${computerMove}"]`).innerText = `${computer.marker}`;
+            gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
+            goodMoves = [];
+        };
     }
 
 })();
