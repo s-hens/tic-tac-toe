@@ -75,21 +75,24 @@ const boardModule = (() => {
         //gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
 
         //Hard AI: Computer turn
+        let goodMoves = [];
         triples.forEach(triple => {
-            let fills = Array.of(gameboard.at(triple.first).fill, gameboard.at(triple.second).fill, gameboard.at(triple.third).fill);
-            console.log(fills);
-            let goodMoves = fills.reduce(function(obj, item) {
-                if (!obj[item]) {
-                    obj[item] = 0;
-                }
-                obj[item]++;
-                return obj;
-            }, {});
-            console.log(goodMoves);
-            if (goodMoves.x === 2 || goodMoves.o === 2) {
-                console.log("I should play in this triple");
+            if (gameboard.at(triple.first).fill != "empty" && (gameboard.at(triple.first).fill === gameboard.at(triple.second).fill)) {
+                goodMoves.push(triple.third);
+            } else if (gameboard.at(triple.first).fill != "empty" && (gameboard.at(triple.first).fill === gameboard.at(triple.third).fill)) {
+                goodMoves.push(triple.second);
+            } else if (gameboard.at(triple.second).fill != "empty" && (gameboard.at(triple.second).fill === gameboard.at(triple.third).fill)) {
+                goodMoves.push(triple.first);
             }
-        });
+        });     
+        if (goodMoves.at(0) === undefined) {
+            console.log("Random");
+        } else {
+            let computerMove = goodMoves.at(0);
+            console.log(computerMove);
+            document.querySelector(`[data-index="${computerMove}"]`).innerText = `${computer.marker}`;
+            gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
+        };
 
         
         // Check for win
