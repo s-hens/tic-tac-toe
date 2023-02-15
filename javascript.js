@@ -61,16 +61,13 @@ const boardModule = (() => {
         // Place marker
         this.innerText = `${active.marker}`;
         gameboard.at(this.getAttribute("data-index")).fill = active.marker; //div innerText STILL matches box.fill
-    
         // Check for win
         checkForWin();
         if (gameOver === true) {
             return;
         };
-
         //Computer turn: hard
         hardAI();
-        
         // Check for win
         checkForWin();
         if (gameOver === true) {
@@ -80,9 +77,10 @@ const boardModule = (() => {
     
     function checkForWin() {
         triples.forEach(triple => {
-            if (gameboard.at(triple.first).fill === gameboard.at(triple.second).fill
-            && gameboard.at(triple.second).fill === gameboard.at(triple.third).fill
-            && gameboard.at(triple.first).fill != "empty") {
+            if (
+            gameboard.at(triple.first).fill === gameboard.at(triple.second).fill &&
+            gameboard.at(triple.second).fill === gameboard.at(triple.third).fill &&
+            gameboard.at(triple.first).fill != "empty") {
                 active.score = active.score + 1;
                 console.log(`${active.name} win. ${active.score}`);
                 gameOver = true;
@@ -98,27 +96,30 @@ const boardModule = (() => {
     }
 
     function hardAI() {
-        //Hard AI: Computer turn
         let goodMoves = [];
+        let availableMoves = gameboard.filter(box => box.fill === "empty");
         triples.forEach(triple => {
             if (
-                gameboard.at(triple.first).fill !== "empty" &&
-                gameboard.at(triple.first).fill === gameboard.at(triple.second).fill &&
-                gameboard.at(triple.third).fill === "empty" &&
-                goodMoves.includes(triple.third) === false ) {
-                    goodMoves.push(triple.third);
+            gameboard.at(triple.first).fill !== "empty" &&
+            gameboard.at(triple.first).fill === gameboard.at(triple.second).fill &&
+            gameboard.at(triple.third).fill === "empty" &&
+            availableMoves.includes(triple.third) === true &&
+            goodMoves.includes(triple.third) === false ) {
+                goodMoves.push(triple.third);
             } else if (
-                gameboard.at(triple.first).fill !== "empty" &&
-                gameboard.at(triple.first).fill === gameboard.at(triple.third).fill &&
-                gameboard.at(triple.second).fill === "empty" &&
-                goodMoves.includes(triple.second) === false ) {
-                    goodMoves.push(triple.second);
+            gameboard.at(triple.first).fill !== "empty" &&
+            gameboard.at(triple.first).fill === gameboard.at(triple.third).fill &&
+            gameboard.at(triple.second).fill === "empty" &&
+            availableMoves.includes(triple.second) === true &&
+            goodMoves.includes(triple.second) === false ) {
+                goodMoves.push(triple.second);
             } else if (
-                gameboard.at(triple.second).fill !== "empty" &&
-                gameboard.at(triple.second).fill === gameboard.at(triple.third).fill &&
-                gameboard.at(triple.first).fill === "empty" &&
-                goodMoves.includes(triple.first) === false ) {
-                    goodMoves.push(triple.first);
+            gameboard.at(triple.second).fill !== "empty" &&
+            gameboard.at(triple.second).fill === gameboard.at(triple.third).fill &&
+            gameboard.at(triple.first).fill === "empty" &&
+            availableMoves.includes(triple.first) === true &&
+            goodMoves.includes(triple.first) === false ) {
+                goodMoves.push(triple.first);
             }
         });     
         if (goodMoves.at(0) === undefined) {
@@ -134,18 +135,3 @@ const boardModule = (() => {
     }
 
 })();
-
-
-//const data = [
-//    'car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogo stick', 'horse'
-//];
-
-//const transport = data.reduce(function(obj, item) {
-//    if (!obj[item]) {
-//        obj[item] = 0;
-//    }
-//    obj[item]++;
-//    return obj;
-//}, {});
-
-//console.table(transport);
