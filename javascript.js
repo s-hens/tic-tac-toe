@@ -73,84 +73,79 @@ const boardModule = (() => {
             gameboard.at(triple.b).marker === gameboard.at(triple.c).marker &&
             gameboard.at(triple.a).available === false) {
                 console.log(`Congrats ${active.name}, you win!`);
+                active.score = active.score + 1;
+                gameOver = true;
             };
         });
     };
 
-    // Computer AI: Easy
+    // AI: Easy
     function easyAI() {
         let computerMove = availableBoxes[Math.floor(Math.random() * availableBoxes.length)];
-        console.log(computerMove);
         gameboard.at(computerMove.index).marker = active.marker;
-        updateBoard();
-    }
+        gameboard.at(computerMove.index).available = false;
+    };
+
+    // AI: Hard
+    function hardAI() {
+        let goodMoves = [];
+
+        triples.forEach(triple => {
+            if (
+            gameboard.at(triple.b).marker === human.marker &&
+            gameboard.at(triple.c).marker === human.marker &&
+            gameboard.at(triple.a).available === true &&
+            !goodMoves.includes(triple.a)) {
+                goodMoves.push(triple.a);
+            } else if (
+            gameboard.at(triple.a).marker === human.marker &&
+            gameboard.at(triple.c).marker === human.marker &&
+            gameboard.at(triple.b).available === true &&
+            !goodMoves.includes(triple.b)) {
+                goodMoves.push(triple.b);
+            } else if (
+            gameboard.at(triple.a).marker === human.marker &&
+            gameboard.at(triple.b).marker === human.marker &&
+            gameboard.at(triple.c).available === true &&
+            !goodMoves.includes(triple.c)) {
+                goodMoves.push(triple.c);
+            }
+        });
+
+        if (availableBoxes.includes(availableBoxes.find(box => box.index === 4))) {
+            gameboard.at(4).marker = active.marker;
+            gameboard.at(4).available = false;
+            console.log("Breaking the fork strat");
+        } else if (goodMoves.at(0) === undefined) {
+            easyAI();
+            console.log("Using easy AI");
+        } else {
+            let computerChoice = goodMoves.pop();
+            gameboard.at(computerChoice).marker = active.marker;
+            gameboard.at(computerChoice).available = false;
+            console.log("Using smart move choice");
+        };
+    };
 
     // Handle turn
     let active;
+    let gameOver = false;
 
     function handleTurn() {
         // Human's turn
         active = human;
-        console.log(active);
         gameboard.at(this.getAttribute("data-index")).marker = active.marker;
         gameboard.at(this.getAttribute("data-index")).available = false;
         updateBoard();
+        if (gameOver === true) return;
         // Computer's turn
         active = computer;
-        easyAI();
+        //easyAI();
+        hardAI();
+        updateBoard();
+        if (gameOver === true) return;
     };
 
     updateBoard();
     
 })();
-
-/*
-function hardAI() {
-        let goodMoves = [];
-        let availableMoves = [];
-
-        gameboard.forEach(box => {
-            if (box.fill === "empty") {
-                availableMoves.push(gameboard.indexOf(box));
-            }});
-
-        triples.forEach(triple => {
-            if (
-            gameboard.at(triple.first).fill === human.marker &&
-            gameboard.at(triple.second).fill === human.marker &&
-            gameboard.at(triple.third).fill === "empty" &&
-            availableMoves.includes(triple.third) &&
-            !goodMoves.includes(triple.third)) {
-                goodMoves.push(triple.third);
-            } else if (
-            gameboard.at(triple.first).fill === human.marker &&
-            gameboard.at(triple.third).fill === human.marker &&
-            gameboard.at(triple.second).fill === "empty" &&
-            availableMoves.includes(triple.second) &&
-            !goodMoves.includes(triple.second)) {
-                goodMoves.push(triple.second);
-            } else if (
-            gameboard.at(triple.second).fill === human.marker &&
-            gameboard.at(triple.third).fill === human.marker &&
-            gameboard.at(triple.first).fill === "empty" &&
-            availableMoves.includes(triple.first) &&
-            !goodMoves.includes(triple.first)) {
-                goodMoves.push(triple.first);
-            }
-        });
-
-        if (availableMoves.includes(4)) {
-            document.querySelector(`[data-index="4"]`).innerText = `${computer.marker}`;
-            gameboard.at(4).fill = computer.marker;
-            console.log("Breaking the fork strat");
-        } else if (goodMoves.at(0) === undefined) {
-            easyAI();
-            console.log("using easy AI");
-        } else {
-            let computerMove = goodMoves.pop();
-            document.querySelector(`[data-index="${computerMove}"]`).innerText = `${computer.marker}`;
-            gameboard.at(gameboard.indexOf(computerMove)).fill = computer.marker;
-            console.log("using smart move choice");
-        };
-    }
-*/
