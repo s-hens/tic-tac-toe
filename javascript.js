@@ -77,6 +77,11 @@ const boardModule = (() => {
                 gameOver = true;
             };
         });
+
+        if (availableBoxes.length === 0) {
+            console.log(`No more valid moves remain. Tie.`);
+            gameOver = true;
+        };
     };
 
     // AI: Easy
@@ -113,17 +118,15 @@ const boardModule = (() => {
         });
 
         if (availableBoxes.includes(availableBoxes.find(box => box.index === 4))) {
-            gameboard.at(4).marker = active.marker;
-            gameboard.at(4).available = false;
-            console.log("Breaking the fork strat");
-        } else if (goodMoves.at(0) === undefined) {
-            easyAI();
-            console.log("Using easy AI");
-        } else {
-            let computerChoice = goodMoves.pop();
+            const computerChoice = 4;
             gameboard.at(computerChoice).marker = active.marker;
             gameboard.at(computerChoice).available = false;
-            console.log("Using smart move choice");
+        } else if (goodMoves.at(0) === undefined) {
+            easyAI();
+        } else {
+            const computerChoice = goodMoves.pop();
+            gameboard.at(computerChoice).marker = active.marker;
+            gameboard.at(computerChoice).available = false;
         };
     };
 
@@ -140,12 +143,15 @@ const boardModule = (() => {
         if (gameOver === true) return;
         // Computer's turn
         active = computer;
+
+
         //easyAI();
         hardAI();
         updateBoard();
         if (gameOver === true) return;
     };
 
+    // Initial board setup
     updateBoard();
     
 })();
