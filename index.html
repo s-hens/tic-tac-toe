@@ -7,24 +7,36 @@
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="./style.css">
     <script src="./javascript.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <header><h1>Tic-Tac-Toe</h1></header>
+
     <main></main>
 
-    <div id="difficultyDiv">
-        Difficulty:<br>
-        <input type="radio" id="easy" name="difficulty" value="easy" checked required>
-        <label for="easy">Easy</label><br>
-        <input type="radio" id="hard" name="difficulty" value="hard">
-        <label for="hard">Hard</label>
+    <div id="info">
+        <div id="difficultyDiv">
+            <h2>Difficulty:</h2>
+            <input type="radio" id="easy" name="difficulty" value="easy" checked required>
+            <label for="easy">Easy</label><br>
+            <input type="radio" id="hard" name="difficulty" value="hard">
+            <label for="hard">Hard</label>
+        </div>
+        <div id="resetDiv">
+            <button id="reset">Play Again</button>
+        </div>
+        <div id="scoreDiv">
+            <h2>Score:</h2>
+            Human: 0<br>
+            Computer: 0
+        </div>
     </div>
-    <div id="scoreDiv">
-        Score:
-    </div>
-    <div id="resetDiv">
-        <button id="reset">Play Again</button>
-    </div>
+
+    <footer>By Steph Henson | <a href="https://github.com/s-hens/tic-tac-toe">GitHub</a></footer>
     
 </body>
 </html>

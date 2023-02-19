@@ -40,7 +40,7 @@ const boardModule = (() => {
         };
     
         for (let i = 0; i < 9; i++) {
-            boxFactory(i, "empty", true);
+            boxFactory(i, "", true);
         };
         updateBoard();    
     };
@@ -81,15 +81,21 @@ const boardModule = (() => {
                 });
                 console.log(`Congrats ${active.name}, you win!`);
                 active.score = active.score + 1;
-                document.getElementById("scoreDiv").innerHTML = `Score:<br>Human: ${human.score}<br>Computer: ${computer.score}`;
-                document.getElementById("reset").style.display = "block";
+                document.getElementById("scoreDiv").innerHTML = `
+                    <h2>Score:</h2>
+                    Human: ${human.score}<br>
+                    Computer: ${computer.score}`;
+                document.getElementById("reset").style.visibility = "visible";
                 gameOver = true;
             };
         });
-
         if (availableBoxes.length === 0) {
+            gameboard.forEach(box => {
+                document.querySelector(`[data-index="${box.index}"]`).classList.remove("available");
+                document.querySelector(`[data-index="${box.index}"]`).removeEventListener("click", handleTurn);
+            });
             console.log(`No more valid moves remain. Tie.`);
-            document.getElementById("reset").style.display = "block";
+            document.getElementById("reset").style.visibility = "visible";
             gameOver = true;
         };
     };
