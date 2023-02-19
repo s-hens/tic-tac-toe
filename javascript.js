@@ -27,7 +27,7 @@ tripleFactory(0, 4, 8);
 tripleFactory(2, 4, 6);
 
 // Create game board using module & IIFE
-const gameboard = [];
+let gameboard = [];
 let availableBoxes = [];
 
 const boardModule = (() => {
@@ -83,6 +83,21 @@ const boardModule = (() => {
             gameOver = true;
         };
     };
+
+    // Toggle easy/hard mode
+    let easyMode = true;
+    const difficulty = document.getElementsByName('difficulty');
+
+    difficulty.forEach((button) => button.addEventListener('change', toggleDifficulty));
+    window.addEventListener("load", toggleDifficulty);
+
+    function toggleDifficulty() {
+        if (document.getElementsByName('difficulty')[0].checked) {
+            easyMode = true;
+        } else {
+            easyMode = false;
+        }
+    }
 
     // AI: Easy
     function easyAI() {
@@ -143,10 +158,13 @@ const boardModule = (() => {
         if (gameOver === true) return;
         // Computer's turn
         active = computer;
-
-
+        if (easyMode === true) {
+            easyAI();
+        } else {
+            hardAI();
+        }
         //easyAI();
-        hardAI();
+        //hardAI();
         updateBoard();
         if (gameOver === true) return;
     };
