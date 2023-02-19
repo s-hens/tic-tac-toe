@@ -53,7 +53,7 @@ const boardModule = (() => {
             const div = document.createElement("div");
             div.classList.add("box");
             div.setAttribute("data-index", `${box.index}`);
-            div.innerText = `${box.marker}`;
+            div.innerHTML = `<span class="${box.marker}">${box.marker}</span>`;
             document.querySelector("main").appendChild(div);
         });
         // Update available boxes array and event listeners to available boxes

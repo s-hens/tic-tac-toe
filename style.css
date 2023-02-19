@@ -1,8 +1,10 @@
 :root {
-    --whitish: #FCFCFC;
+    --whitish: #FEFEFE;
     --lightGrey: #999999;
     --darkGrey: #333333;
     --greenish: #B5EAD6;
+    --bluish: #C7CEEA;
+    --reddish: #FF9AA2;
     --rainbow: linear-gradient(135deg, rgba(255,154,162,1) 0%, rgba(255,218,193,1) 25%, rgba(226,240,203,1) 50%, rgba(181,234,215,1) 75%, rgba(199,206,234,1) 100%);
 }
 
@@ -18,8 +20,8 @@ body {
 }
 
 h1 {
-    font-size: 32px;
-    line-height: 30px;
+    font-size: 36px;
+    line-height: 32px;
     font-weight: 700;
     margin: 0;
     text-align: center;
@@ -29,6 +31,32 @@ h2 {
     font-size: 16px;
     font-weight: 700;
     margin: 0;
+}
+
+.x {
+    background-color: rgba(255, 255, 255, 0.90);
+    color: var(--reddish);
+    border: 5px solid var(--reddish);
+    box-sizing: border-box;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.o {
+    background-color: rgba(255, 255, 255, 0.90);
+    color: var(--bluish);
+    border: 5px solid var(--bluish);
+    box-sizing: border-box;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 main {
@@ -46,15 +74,13 @@ main {
 }
 
 .box {
-    background-color: rgba(255, 255, 255, 0.70);
+    background-color: rgba(255, 255, 255, 0.65);
     font-size: 10vh;
     border-radius: 10px;
     display: inline-block;
     height: 20vh;
     width: 20vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    transition: 0.3s;
 }
 
 .available:hover {
@@ -76,15 +102,18 @@ button {
     color: var(--darkGrey);
     background-color: var(--greenish);
     border: 0;
+    box-sizing: border-box;
     border-radius: 10px;
     font-family: 'Red Hat Mono', monospace;
     font-size: 16px;
     font-weight: 700;
     padding: 20px 30px;
+    transition: 0.3s;
 }
 
 button:hover {
     cursor: pointer;
+    background-color: var(--bluish);
 }
 
 footer {
@@ -94,8 +123,14 @@ footer {
 }
 
 a {
-    color: #B5EAD6;
+    color: var(--greenish);
     text-decoration: none;
     font-weight: 700;
     border-bottom: 2px solid var(--greenish);
+    transition: 0.3s;
+}
+
+a:hover {
+    color: var(--bluish);
+    border-bottom: 2px solid var(--bluish);
 }
