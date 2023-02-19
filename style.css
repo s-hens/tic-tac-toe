@@ -85,6 +85,7 @@ main {
 
 #resetDiv {
     opacity: 0;
+    visibility: hidden;
 }
 
 #result {

@@ -84,6 +84,7 @@ const boardModule = (() => {
                     <h2>Score:</h2>
                     Human: ${human.score}<br>
                     Computer: ${computer.score}`;
+                document.getElementById("resetDiv").style.visibility = "visible";
                 document.getElementById("resetDiv").style.opacity = 1;
                 document.getElementById("result").innerHTML = `
                     <h2>${active.name} wins!</h2>`;
@@ -95,6 +96,7 @@ const boardModule = (() => {
                 document.querySelector(`[data-index="${box.index}"]`).classList.remove("available");
                 document.querySelector(`[data-index="${box.index}"]`).removeEventListener("click", handleTurn);
             });
+            document.getElementById("resetDiv").style.visibility = "visible";
             document.getElementById("resetDiv").style.opacity = 1;
             document.getElementById("result").innerHTML = `
                 <h2>It's a tic-tac-tie!</h2>`;
@@ -106,6 +108,7 @@ const boardModule = (() => {
     document.getElementById("reset").addEventListener("click", reset);
     function reset() {
         document.getElementById("resetDiv").style.opacity = 0;
+        document.getElementById("resetDiv").style.visibility = "hidden";
         gameOver = false;
         gameboard = [];
         availableBoxes = [];
