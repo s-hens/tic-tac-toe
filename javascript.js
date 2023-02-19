@@ -6,8 +6,8 @@ const playerFactory = (name, marker, score) => {
     return {name, marker, score};
 };
 
-const human = playerFactory("human", "x", 0);
-const computer = playerFactory("computer", "o", 0);
+const human = playerFactory("Human", "x", 0);
+const computer = playerFactory("Computer", "o", 0);
 
 // Create array of win conditions using factory function
 const triples = [];
@@ -42,7 +42,7 @@ const boardModule = (() => {
         for (let i = 0; i < 9; i++) {
             boxFactory(i, "", true);
         };
-        updateBoard();    
+        updateBoard();
     };
 
     // Update board
@@ -79,13 +79,14 @@ const boardModule = (() => {
                     document.querySelector(`[data-index="${box.index}"]`).classList.remove("available");
                     document.querySelector(`[data-index="${box.index}"]`).removeEventListener("click", handleTurn);
                 });
-                console.log(`Congrats ${active.name}, you win!`);
                 active.score = active.score + 1;
                 document.getElementById("scoreDiv").innerHTML = `
                     <h2>Score:</h2>
                     Human: ${human.score}<br>
                     Computer: ${computer.score}`;
-                document.getElementById("reset").style.visibility = "visible";
+                document.getElementById("resetDiv").style.opacity = 1;
+                document.getElementById("result").innerHTML = `
+                    <h2>${active.name} wins!</h2>`;
                 gameOver = true;
             };
         });
@@ -94,8 +95,9 @@ const boardModule = (() => {
                 document.querySelector(`[data-index="${box.index}"]`).classList.remove("available");
                 document.querySelector(`[data-index="${box.index}"]`).removeEventListener("click", handleTurn);
             });
-            console.log(`No more valid moves remain. Tie.`);
-            document.getElementById("reset").style.visibility = "visible";
+            document.getElementById("resetDiv").style.opacity = 1;
+            document.getElementById("result").innerHTML = `
+                <h2>It's a tic-tac-tie!</h2>`;
             gameOver = true;
         };
     };
@@ -103,6 +105,7 @@ const boardModule = (() => {
     // Reset game
     document.getElementById("reset").addEventListener("click", reset);
     function reset() {
+        document.getElementById("resetDiv").style.opacity = 0;
         gameOver = false;
         gameboard = [];
         availableBoxes = [];
@@ -188,8 +191,6 @@ const boardModule = (() => {
         } else {
             hardAI();
         }
-        //easyAI();
-        //hardAI();
         updateBoard();
         if (gameOver === true) return;
     };

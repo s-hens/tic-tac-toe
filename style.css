@@ -33,32 +33,6 @@ h2 {
     margin: 0;
 }
 
-.x {
-    background-color: rgba(255, 255, 255, 0.90);
-    color: var(--reddish);
-    border: 5px solid var(--reddish);
-    box-sizing: border-box;
-    border-radius: 10px;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.o {
-    background-color: rgba(255, 255, 255, 0.90);
-    color: var(--bluish);
-    border: 5px solid var(--bluish);
-    box-sizing: border-box;
-    border-radius: 10px;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 main {
     background-color: var(--greenish);
     background: var(--rainbow);
@@ -88,14 +62,40 @@ main {
     background-color: rgba(255, 255, 255, 0.90);
 }
 
+.x, .o {
+    background-color: rgba(255, 255, 255, 0.90);
+    box-sizing: border-box;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.x {
+    color: var(--reddish);
+    border: 5px solid var(--reddish);
+}
+
+.o {
+    color: var(--bluish);
+    border: 5px solid var(--bluish);
+}
+
+#resetDiv {
+    opacity: 0;
+}
+
+#result {
+    display: block;
+    padding-bottom: 30px;
+}
+
 #info {
     text-align: center;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-}
-
-#reset {
-    visibility: hidden;
 }
 
 button {
@@ -116,12 +116,6 @@ button:hover {
     background-color: var(--bluish);
 }
 
-footer {
-    color: var(--lightGrey);
-    text-align: center;
-    margin: 30px 0;
-}
-
 a {
     color: var(--greenish);
     text-decoration: none;
@@ -133,4 +127,10 @@ a {
 a:hover {
     color: var(--bluish);
     border-bottom: 2px solid var(--bluish);
+}
+
+footer {
+    color: var(--lightGrey);
+    text-align: center;
+    margin: 30px 0;
 }
