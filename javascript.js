@@ -33,13 +33,16 @@ let availableBoxes = [];
 const boardModule = (() => {
 
     // Create board array using factory function
-    const boxFactory = (index, marker, available) => {
-        gameboard.push({index, marker, available});
-        return {index, marker, available};
-    };
-
-    for (let i = 0; i < 9; i++) {
-        boxFactory(i, "empty", true);
+    function initialSetup() {
+        const boxFactory = (index, marker, available) => {
+            gameboard.push({index, marker, available});
+            return {index, marker, available};
+        };
+    
+        for (let i = 0; i < 9; i++) {
+            boxFactory(i, "empty", true);
+        };
+        updateBoard();    
     };
 
     // Update board
@@ -72,27 +75,43 @@ const boardModule = (() => {
             gameboard.at(triple.a).marker === gameboard.at(triple.b).marker &&
             gameboard.at(triple.b).marker === gameboard.at(triple.c).marker &&
             gameboard.at(triple.a).available === false) {
+                gameboard.forEach(box => {
+                    document.querySelector(`[data-index="${box.index}"]`).classList.remove("available");
+                    document.querySelector(`[data-index="${box.index}"]`).removeEventListener("click", handleTurn);
+                });
                 console.log(`Congrats ${active.name}, you win!`);
                 active.score = active.score + 1;
+                document.getElementById("scoreDiv").innerHTML = `Score:<br>Human: ${human.score}<br>Computer: ${computer.score}`;
+                document.getElementById("reset").style.display = "block";
                 gameOver = true;
             };
         });
 
         if (availableBoxes.length === 0) {
             console.log(`No more valid moves remain. Tie.`);
+            document.getElementById("reset").style.display = "block";
             gameOver = true;
         };
     };
 
+    // Reset game
+    document.getElementById("reset").addEventListener("click", reset);
+    function reset() {
+        gameOver = false;
+        gameboard = [];
+        availableBoxes = [];
+        initialSetup();
+    };
+
     // Toggle easy/hard mode
     let easyMode = true;
-    const difficulty = document.getElementsByName('difficulty');
+    const difficulty = document.getElementsByName("difficulty");
 
     difficulty.forEach((button) => button.addEventListener('change', toggleDifficulty));
     window.addEventListener("load", toggleDifficulty);
 
     function toggleDifficulty() {
-        if (document.getElementsByName('difficulty')[0].checked) {
+        if (document.getElementsByName("difficulty")[0].checked) {
             easyMode = true;
         } else {
             easyMode = false;
@@ -170,6 +189,6 @@ const boardModule = (() => {
     };
 
     // Initial board setup
-    updateBoard();
+    initialSetup();
     
 })();

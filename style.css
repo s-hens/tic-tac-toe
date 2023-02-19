@@ -14,17 +14,25 @@ main {
     gap: 10px;
 }
 
+div {
+    border: 1px solid green;
+}
+
 .box {
-    border: 1px solid red;
+    border: 1px solid blue;
     display: inline-block;
     height: 100px;
     width: 100px;
 }
 
 .available {
-    border: 2px solid red;
+    border: 1px solid red;
 }
 
 .available:hover {
     cursor: pointer;
+}
+
+#reset {
+    display: none;
 }
