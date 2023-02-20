@@ -131,8 +131,10 @@ const boardModule = (() => {
     }
 
     // AI: Easy
+    let computerMove;
+
     function easyAI() {
-        let computerMove = availableBoxes[Math.floor(Math.random() * availableBoxes.length)];
+        computerMove = availableBoxes[Math.floor(Math.random() * availableBoxes.length)];
         gameboard.at(computerMove.index).marker = active.marker;
         gameboard.at(computerMove.index).available = false;
     };
@@ -163,16 +165,26 @@ const boardModule = (() => {
             }
         });
 
-        if (availableBoxes.includes(availableBoxes.find(box => box.index === 4))) {
-            const computerChoice = 4;
-            gameboard.at(computerChoice).marker = active.marker;
-            gameboard.at(computerChoice).available = false;
-        } else if (goodMoves.at(0) === undefined) {
-            easyAI();
-        } else {
-            const computerChoice = goodMoves.pop();
-            gameboard.at(computerChoice).marker = active.marker;
-            gameboard.at(computerChoice).available = false;
+        switch (true) {
+            case availableBoxes.length === 8 && !availableBoxes.includes(availableBoxes.find(box => box.index === 4)):
+                const corners = [0, 2, 6, 8];
+                computerMove = corners[Math.floor(Math.random() * 4)];
+                gameboard.at(computerMove).marker = active.marker;
+                gameboard.at(computerMove).available = false;
+                break;
+            case availableBoxes.includes(availableBoxes.find(box => box.index === 4)):
+                computerMove = 4;
+                gameboard.at(computerMove).marker = active.marker;
+                gameboard.at(computerMove).available = false;
+                break;
+            case goodMoves.at(0) === undefined:
+                easyAI();
+                break;
+            default:
+                computerMove = goodMoves.pop();
+                gameboard.at(computerMove).marker = active.marker;
+                gameboard.at(computerMove).available = false;
+                break;
         };
     };
 
