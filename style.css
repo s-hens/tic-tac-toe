@@ -134,4 +134,44 @@ footer {
     color: var(--lightGrey);
     text-align: center;
     margin: 2vh 0 0;
+    font-size: 2vh;
+}
+
+
+@media (max-width:500px) {
+
+body, h2, button {
+    font-size: 4vw;
+}
+
+h1 {
+    font-size: 8vw;
+    line-height: 8vw;
+}
+
+main {
+    gap: 3vw;
+    padding: 3vw;
+    margin: 3vw auto;
+}
+    
+.box {
+    font-size: 10vw;
+    height: 27vw;
+    width: 27vw;
+}
+
+#info div {
+    padding: 0 3vw;
+}
+
+button {
+    padding: 3vw;
+}
+
+footer {
+    font-size: 3vw;
+}
+    
+
 }
