@@ -11,6 +11,6 @@ Done as part of [The Odin Project](https://www.theodinproject.com/) Full Stack J
 ## I learned about...
 
 - Factory functions
-- Modules
+- The module pattern
 - Immediately Invoked Function Expressions
 - Variable scope
