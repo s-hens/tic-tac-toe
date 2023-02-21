@@ -197,12 +197,10 @@ const boardModule = (() => {
                 gameboard.at(computerMove).available = false;
                 console.log("if player has 2 in a row, block the third spot");
                 break;
-            case goodMoves.at(0) === undefined && goodCorners.at(0) === undefined:
-                easyAI();
-                console.log("if player has no 2-in-a-rows, and is not closing in on any corners, go random");
-                break;
             default:
+                easyAI();
                 console.log("none of these triggered");
+                break;
         };
     };
 
