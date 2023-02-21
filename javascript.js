@@ -143,6 +143,19 @@ const boardModule = (() => {
     function hardAI() {
         let goodMoves = [];
 
+        const cornerPairs = [
+            [1, 3], [1, 5], [7, 3], [7, 5]
+        ];
+        let goodCorners = [];
+
+        cornerPairs.forEach(pair => {
+            if (
+            gameboard.at(pair.at(0)).marker === human.marker &&
+            gameboard.at(pair.at(1)).marker === human.marker &&
+            availableBoxes.includes(gameboard.at(pair.at(0) + pair.at(1) - 4)))
+                goodCorners.push(pair.at(0) + pair.at(1) - 4);
+        });
+
         triples.forEach(triple => {
             if (
             gameboard.at(triple.b).marker === human.marker &&
@@ -166,25 +179,30 @@ const boardModule = (() => {
         });
 
         switch (true) {
-            case availableBoxes.length === 8 && !availableBoxes.includes(availableBoxes.find(box => box.index === 4)):
-                const corners = [0, 2, 6, 8];
-                computerMove = corners[Math.floor(Math.random() * 4)];
-                gameboard.at(computerMove).marker = active.marker;
-                gameboard.at(computerMove).available = false;
-                break;
             case availableBoxes.includes(availableBoxes.find(box => box.index === 4)):
                 computerMove = 4;
                 gameboard.at(computerMove).marker = active.marker;
                 gameboard.at(computerMove).available = false;
+                console.log("if center is available, take center");
                 break;
-            case goodMoves.at(0) === undefined:
-                easyAI();
+            case goodMoves.at(0) === undefined && goodCorners.at(0) !== undefined:
+                computerMove = goodCorners.pop();
+                gameboard.at(computerMove).marker = active.marker;
+                gameboard.at(computerMove).available = false;
+                console.log("if player is closing in on a corner, block");
                 break;
-            default:
+            case goodMoves.at(0) !== undefined && goodCorners.at(0) === undefined:
                 computerMove = goodMoves.pop();
                 gameboard.at(computerMove).marker = active.marker;
                 gameboard.at(computerMove).available = false;
+                console.log("if player has 2 in a row, block the third spot");
                 break;
+            case goodMoves.at(0) === undefined && goodCorners.at(0) === undefined:
+                easyAI();
+                console.log("if player has no 2-in-a-rows, and is not closing in on any corners, go random");
+                break;
+            default:
+                console.log("none of these triggered");
         };
     };
 
