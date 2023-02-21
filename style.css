@@ -133,10 +133,9 @@ a:hover {
 footer {
     color: var(--lightGrey);
     text-align: center;
-    margin: 2vh 0 0;
+    margin: 2vh 0;
     font-size: 2vh;
 }
-
 
 @media (max-width:500px) {
 
@@ -172,6 +171,5 @@ button {
 footer {
     font-size: 3vw;
 }
-    
 
 }
